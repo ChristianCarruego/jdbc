@@ -19,10 +19,10 @@ public class PersonaDaoJdbcImpl implements PersonaDao {
 
 	@Override
 	public void insert(Persona persona) throws PersistenceException {
-		
+
 		Transaction tx = TransactionJdbcImpl.getInstance();
 		Connection conn = tx.getConnection();
-		
+
 		try {
 			tx.begin();
 			String query = "insert into persona (id, nombre, apellido, edad) values (?, ?, ?, ?)";
@@ -32,11 +32,11 @@ public class PersonaDaoJdbcImpl implements PersonaDao {
 			statement.setString(2, persona.getNombre());
 			statement.setString(3, persona.getApellido());
 			statement.setInt(4, persona.getEdad());
-			
+
 			statement.executeUpdate();
 
 			tx.commit();
-			
+
 		} catch (SQLException sqlException) {
 			throw new PersistenceException(sqlException);
 		} finally {
@@ -52,15 +52,17 @@ public class PersonaDaoJdbcImpl implements PersonaDao {
 	public void delete(Persona persona) throws PersistenceException {
 		Transaction tx = TransactionJdbcImpl.getInstance();
 		Connection conn = tx.getConnection();
-		
+
 		try {
+			tx.begin();
+
 			String query = "delete from persona where id = ?";
 			PreparedStatement statement = conn.prepareStatement(query);
 			statement.setInt(1, persona.getId());
 			statement.executeUpdate();
-			
+
 			tx.commit();
-			
+
 		} catch (SQLException sqlException) {
 			throw new PersistenceException(sqlException);
 		} finally {
@@ -75,7 +77,7 @@ public class PersonaDaoJdbcImpl implements PersonaDao {
 	@Override
 	public void update(Persona persona) throws PersistenceException {
 		try {
-			String query = "update persona nombre = ?, apellido = ?, edad = ? adsad where id = ?";
+			String query = "update persona set nombre = ?, apellido = ?, edad = ? where id = ?";
 
 			PreparedStatement statement = TransactionJdbcImpl.getInstance()
 					.getConnection().prepareStatement(query);

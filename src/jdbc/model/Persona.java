@@ -10,7 +10,7 @@ public class Persona {
 	public Persona() {
 		super();
 	}
-	
+
 	public Integer getId() {
 		return id;
 	}

@@ -28,13 +28,16 @@ public class ConnectionProvider {
 	}
 
 	public Connection getConnection() throws PersistenceException {
-			
+
 		try {
+			this.closeConnection();
+			// siempre debe ser una nueva conexión, por cuestiones de SQLite
+
 			connection = DriverManager.getConnection(this.url);
+			connection.setAutoCommit(false);
 		} catch (Exception exception) {
 			throw new PersistenceException(exception);
 		}
-		
 		return connection;
 	}
 

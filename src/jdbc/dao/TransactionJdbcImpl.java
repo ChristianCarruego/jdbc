@@ -66,7 +66,7 @@ public class TransactionJdbcImpl implements Transaction {
         try {
             if(this.connection != null && 
                !this.connection.isClosed()) {
-                this.connection.close();
+                ConnectionProvider.getInstance().closeConnection();
                 this.connection = null;
             }
         } catch (SQLException sqlException) {
